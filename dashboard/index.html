@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token launches, ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Token Radar</h1>
+    <p class="sub">Which protocol that records no token yet is worth farming next — and what to do about it.</p>
+  </div>
+  <div class="meta" id="meta">Loading the sealed snapshot…</div>
+</header>
+<nav id="tabs">
+  <button data-tab="board" class="on">Board</button>
+  <button data-tab="traded">Traded peers</button>
+  <button data-tab="evidence">Evidence</button>
+  <button data-tab="method">Method</button>
+</nav>
+<section id="tab-board" class="tab on">
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search name or slug…" aria-label="Search">
+    <select id="cat" aria-label="Category"><option value="">All categories</option></select>
+    <label><input id="watch" type="checkbox"> Watchlist only</label>
+    <select id="minv" aria-label="Minimum implied value">
+      <option value="0">Any implied value</option>
+      <option value="10000000">≥ $10M</option>
+      <option value="50000000">≥ $50M</option>
+      <option value="100000000">≥ $100M</option>
+    </select>
+    <select id="sort" aria-label="Sort">
+      <option value="implied-desc">Implied value ↓</option>
+      <option value="implied-asc">Implied value ↑</option>
+      <option value="tvl-desc">TVL ↓</option>
+      <option value="odds-desc">Launch odds ↓</option>
+      <option value="age-desc">Oldest first</option>
+    </select>
+  </div>
+  <p class="count" id="count"></p>
+  <table>
+    <thead><tr><th>#</th><th>Protocol</th><th>Category</th><th>TVL</th><th>7d</th><th>Age</th><th>Chains</th><th>Implied value</th><th>80% range</th><th>Launch odds</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="pager"><button id="prev">← Prev</button><span id="page"></span><button id="next">Next →</button></div>
+  <div id="detail" class="detail" hidden></div>
+</section>
+<section id="tab-traded" class="tab">
+  <p>Protocols whose token already trades, set apart from the board. Their actual market-cap/TVL ratio is what the value model was fitted on — 87 peers, median ratio shown. The board never mixes these in: it ranks only protocols that record no token.</p>
+  <p class="count" id="peercount"></p>
+  <table>
+    <thead><tr><th>#</th><th>Protocol</th><th>Actual mcap / TVL</th></tr></thead>
+    <tbody id="peerrows"></tbody>
+  </table>
+</section>
+<section id="tab-evidence" class="tab">
+  <h2>Evidence — every term tried, kept and rejected alike</h2>
+  <div id="metrics" class="cards"></div>
+  <h3>Value model search (Huber; LOO / WF / CV / LOCO as factors)</h3>
+  <div class="tablewrap"><table><thead><tr><th>Terms</th><th>LOO</th><th>WF</th><th>CV</th><th>LOCO</th><th>Verdict</th></tr></thead><tbody id="vtable"></tbody></table></div>
+  <h3>Loss comparison on the chosen value set</h3>
+  <div class="tablewrap"><table><thead><tr><th>Loss</th><th>LOO</th><th>WF</th><th>CV</th><th>LOCO</th></tr></thead><tbody id="losstable"></tbody></table></div>
+  <h3>Odds model search (logistic; Brier scores)</h3>
+  <div class="tablewrap"><table><thead><tr><th>Terms</th><th>CV</th><th>WF</th><th>LOCO</th><th>Verdict</th></tr></thead><tbody id="otable"></tbody></table></div>
+  <h3>Conformal intervals</h3>
+  <p id="conformal"></p>
+</section>
+<section id="tab-method" class="tab">
+  <h2>Method, in plain words</h2>
+  <div id="method"></div>
+  <h3>Integrity strip</h3>
+  <p id="integrity">Recompute pending…</p>
+</section>
+<script src="zz-snapshot-data.js"></script>
+<script src="evidence.js"></script>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
